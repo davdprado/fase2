@@ -61,10 +61,11 @@ type TestApiServer struct {
 }
 
 func (s *TestApiServer) Sendgame(ctx context.Context, req *pb.Game) (*pb.Response, error) {
+	fmt.Println(req)
 	ganador := juegos(req.GameId, req.Players)
 	log.Println(req.GameId, req.Players, ganador)
 	msg := pb.Response{Msg: "Creado"}
-	produce(ctx, req)
+	//produce(ctx, req)
 	return &msg, nil
 }
 

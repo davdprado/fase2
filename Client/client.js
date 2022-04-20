@@ -1,14 +1,18 @@
-const GRPCClient = require("node-grpc-client");
+const grpc = require("grpc");
+const protoLoader = require("@grpc/proto-loader");
+const packageDef = protoLoader.loadSync("./proto/test.proto", {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+});
+const grpcObject = grpc.loadPackageDefinition(packageDef);
+const mainPackage = grpcObject.main;
 
-const path = require("path");
-
-const PROTO_PATH = path.resolve(__dirname, "../proto/test.proto");
-
-var client = new GRPCClient(
-  PROTO_PATH,
-  "main",
-  "testApi",
-  "34.135.125.140:8080"
+const client = new mainPackage.testApi(
+  "34.135.125.140:8080",
+  grpc.credentials.createInsecure()
 );
 
 module.exports = client;
