@@ -1,0 +1,17 @@
+syntax = "proto3";
+package main;
+
+option go_package = "./proto";
+
+service testApi{
+    rpc Sendgame (Game) returns (Response){}
+}
+
+message Game {
+    int32 game_id = 1;
+    int32 players = 2;
+}
+
+message Response {
+    string msg = 1;
+}
